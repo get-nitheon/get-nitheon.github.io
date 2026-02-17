@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>NITHEON | Advanced Offline AI for Iranians</title>
+    <meta name="description" content="Download NITHEON Raven (2.05GB) & Crow (4.51GB): Optimized, 100% offline Llama models. Fast, private, and powerful AI for Snapdragon 8 Elite and PC.">
+    <meta property="og:title" content="NITHEON | Next-Gen Offline AI">
+    <meta property="og:description" content="Download Raven & Crow. The future of offline AI in Iran. Private, Fast, Uncensored.">
+    <meta property="og:image" content="https://get-nitheon.github.io/preview.png"> <meta name="theme-color" content="#0a0a0a">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #050505;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-highlight: rgba(255, 255, 255, 0.15);
+            
+            --raven-glow: #ff00cc; /* Magenta */
+            --crow-glow: #00f2ff; /* Cyan */
+            --text-main: #ffffff;
+            --text-muted: #888888;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Unbounded', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- Background Effects --- */
+        .ambient-light {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: pulse 6s infinite alternate ease-in-out;
+            transition: transform 0.2s ease-out; /* Smooth movement for mouse/gyro */
+        }
+
+        .orb-1 {
+            width: 50vw;
+            height: 50vw;
+            background: var(--raven-glow);
+            top: -10%;
+            left: -10%;
+        }
+
+        .orb-2 {
+            width: 60vw;
+            height: 60vw;
+            background: var(--crow-glow);
+            bottom: -10%;
+            right: -10%;
+            animation-delay: 2s;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.3; transform: scale(1); }
+            100% { opacity: 0.5; transform: scale(1.1); }
+        }
+
+        /* --- Typography Classes --- */
+        .brand-font {
+            font-family: 'Unbounded', sans-serif;
+            letter-spacing: 0.05em;
+        }
+
+        .persian-font {
+            font-family: 'Vazirmatn', sans-serif;
+            direction: rtl;
+        }
+
+        .tech-font {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            letter-spacing: -0.05em;
+        }
+
+        /* --- Hero Section --- */
+        header {
+            text-align: center;
+            padding: 4rem 1rem 2rem;
+            z-index: 2;
+            perspective: 1000px;
+        }
+
+        h1.logo {
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: 0.15em;
+            background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255,255,255,0.2);
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-top: 1rem;
+            font-weight: 700;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+
+        /* --- Main Container --- */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            z-index: 2;
+        }
+
+        /* --- Liquid Glass Cards --- */
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-highlight);
+            border-radius: 24px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px -15px rgba(0,0,0,0.6);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        /* Inner Glows for Cards */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.05), transparent 70%);
+            pointer-events: none;
+        }
+
+        /* --- Model Specific Styles --- */
+        .model-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Raven Style */
+        .raven-text {
+            color: #fff;
+            text-shadow: 0 0 20px var(--raven-glow);
+        }
+        .shape-raven {
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--raven-glow);
+            transform: rotate(45deg);
+            box-shadow: 0 0 15px var(--raven-glow);
+        }
+
+        /* Crow Style */
+        .crow-text {
+            color: #fff;
+            text-shadow: 0 0 20px var(--crow-glow);
+        }
+        .shape-crow {
+            width: 30px;
+            height: 30px;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            background: transparent;
+            border: 2px solid var(--crow-glow); /* Fake border via box shadow or SVG usually, using outline here for simplicity */
+            background: linear-gradient(45deg, var(--crow-glow), transparent);
+            box-shadow: 0 0 15px var(--crow-glow);
+        }
+
+        .model-specs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .spec-badge {
+            background: rgba(255,255,255,0.05);
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .description {
+            text-align: center;
+            color: #ddd;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            min-height: 80px;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            text-decoration: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn-raven:hover {
+            background: var(--raven-glow);
+            box-shadow: 0 0 30px var(--raven-glow);
+            color: #000;
+            border-color: transparent;
+        }
+
+        .btn-crow:hover {
+            background: var(--crow-glow);
+            box-shadow: 0 0 30px var(--crow-glow);
+            color: #000;
+            border-color: transparent;
+        }
+
+        /* --- Info Section --- */
+        .info-section {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 3rem;
+            text-align: center;
+            padding: 2rem;
+            z-index: 2;
+        }
+        
+        .info-card {
+            background: rgba(0,0,0,0.4);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .privacy-badge {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.5rem 1.5rem;
+            border: 1px solid #4ade80;
+            color: #4ade80;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            background: rgba(74, 222, 128, 0.1);
+            box-shadow: 0 0 15px rgba(74, 222, 128, 0.1);
+        }
+
+        /* --- Modal (Hardware Warning) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .modal-glass {
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid var(--crow-glow);
+            box-shadow: 0 0 50px rgba(0, 242, 255, 0.2);
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .modal-active .modal-glass {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .modal-title {
+            color: var(--crow-glow);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .modal-body {
+            color: #ddd;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        .modal-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-modal-cancel {
+            background: transparent;
+            border: 1px solid #555;
+            color: #888;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        .btn-modal-confirm {
+            background: var(--crow-glow);
+            color: #000;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: 'Vazirmatn', sans-serif;
+            box-shadow: 0 0 15px rgba(0,242,255,0.4);
+        }
+
+        /* --- Abstract 3D Shapes (SVG) --- */
+        .shape-bg {
+            position: absolute;
+            z-index: -1;
+            opacity: 0.2;
+            transition: transform 0.1s linear;
+        }
+
+        /* --- Media Queries --- */
+        @media (max-width: 768px) {
+            h1.logo { font-size: 2.2rem; }
+            .container { padding: 1rem; }
+            .card { padding: 1.5rem; }
+            .model-title { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-light">
+        <div class="orb orb-1" id="orb1"></div>
+        <div class="orb orb-2" id="orb2"></div>
+    </div>
+
+    <header>
+        <h1 class="logo brand-font">NITHEON</h1>
+        <div class="persian-font tagline">هوش مصنوعی، بیخیالِ اینترنت</div>
+    </header>
+
+    <div class="container">
+        
+        <div class="card" id="card-raven">
+            <svg class="shape-bg" width="200" height="200" viewBox="0 0 100 100" style="top: -20px; right: -20px;">
+                <polygon points="50,15 90,85 10,85" fill="none" stroke="var(--raven-glow)" stroke-width="0.5" />
+            </svg>
+
+            <div class="model-title brand-font raven-text">
+                RAVEN 
+                <div class="shape-raven"></div>
+            </div>
+            
+            <div class="model-specs tech-font">
+                <span class="spec-badge">2.05 GB</span>
+                <span class="spec-badge">Lightweight</span>
+            </div>
+
+            <p class="description persian-font">
+                مدلی سریع و سبک برای اجرای روان روی اکثر گوشی‌ها و لپ‌تاپ‌ها. <br>
+                بهینه شده برای سرعت بالا و استفاده روزمره.
+            </p>
+
+            <a href="https://www.mediafire.com/file/myy1wwytlihn1wb/Nitheon_Raven.zip/file" target="_blank" class="btn btn-raven brand-font">
+                DOWNLOAD RAVEN
+            </a>
+        </div>
+
+        <div class="card" id="card-crow">
+             <svg class="shape-bg" width="200" height="200" viewBox="0 0 100 100" style="bottom: -20px; left: -20px;">
+                <polygon points="50,5 95,27 95,73 50,95 5,73 5,27" fill="none" stroke="var(--crow-glow)" stroke-width="0.5" />
+            </svg>
+
+            <div class="model-title brand-font crow-text">
+                CROW 
+                <div class="shape-crow"></div>
+            </div>
+
+            <div class="model-specs tech-font">
+                <span class="spec-badge">4.51 GB (ZIP)</span>
+                <span class="spec-badge">Pro Series</span>
+            </div>
+
+            <p class="description persian-font">
+                هوشمندترین مدل ما با درک عمیق از زبان فارسی. <br>
+                مخصوص پردازش‌های سنگین و دقیق.
+            </p>
+
+            <button class="btn btn-crow brand-font" onclick="openModal()">
+                DOWNLOAD CROW
+            </button>
+        </div>
+
+    </div>
+
+    <div class="info-section">
+        <div class="info-card persian-font">
+            <h3 style="color:white; margin-bottom:0.5rem;">چگونه استفاده کنیم؟</h3>
+            <p style="color:#aaa; font-size: 0.95rem; line-height:1.6;">
+                فایل‌ها با فرمت <strong>.gguf</strong> هستند.<br>
+                برای موبایل: اپلیکیشن <span class="tech-font" style="color:white">PocketPal</span><br>
+                برای کامپیوتر: نرم‌افزار <span class="tech-font" style="color:white">LM Studio</span><br>
+                <span style="font-size:0.85rem; opacity:0.7;">(راهنمای کامل در فایل ZIP موجود است)</span>
+            </p>
+        </div>
+
+        <div class="privacy-badge persian-font">
+            ۱۰۰٪ آفلاین • ۱۰۰٪ خصوصی
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal">
+        <div class="modal-glass">
+            <h2 class="modal-title persian-font">⚠️ پیش‌نیاز سخت‌افزاری</h2>
+            <div class="modal-body persian-font">
+                <p>مدل <strong>CROW</strong> بسیار قدرتمند و سنگین است.</p>
+                <br>
+                <ul style="list-style:none; text-align:right; margin-bottom:1rem;">
+                    <li>🔹 پردازنده: <strong>Snapdragon 8 Elite</strong> (یا بالاتر)</li>
+                    <li>🔹 فضای خالی: <strong>۱۲ گیگابایت</strong> (برای استخراج فایل)</li>
+                    <li>🔹 رم پیشنهادی: حداقل ۱۲ تا ۱۶ گیگابایت</li>
+                </ul>
+                <p style="font-size:0.9rem; color:#888;">اگر دستگاه شما ضعیف‌تر است، پیشنهاد می‌کنیم از مدل <strong>Raven</strong> استفاده کنید.</p>
+            </div>
+            <div class="modal-btns">
+                <button class="btn-modal-cancel" onclick="closeModal()">انصراف</button>
+                <button class="btn-modal-confirm" onclick="downloadCrow()">بله، دانلود شود</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Interactive Light Engine ---
+        const orb1 = document.getElementById('orb1');
+        const orb2 = document.getElementById('orb2');
+        
+        // Desktop: Mouse Parallax
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+
+            orb1.style.transform = `translate(${x * 30}px, ${y * 30}px) scale(1)`;
+            orb2.style.transform = `translate(-${x * 30}px, -${y * 30}px) scale(1)`;
+        });
+
+        // Mobile: Gyroscope Tilt (No warning/permission request, just passive check)
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener('deviceorientation', (e) => {
+                const tiltX = e.gamma; // Left/Right tilt
+                const tiltY = e.beta;  // Front/Back tilt
+
+                // Limit movement range
+                if (tiltX && tiltY) {
+                    orb1.style.transform = `translate(${tiltX * 0.5}px, ${tiltY * 0.5}px)`;
+                    orb2.style.transform = `translate(${-tiltX * 0.5}px, ${-tiltY * 0.5}px)`;
+                }
+            });
+        }
+
+        // --- Crow Modal Logic ---
+        const modal = document.getElementById('modal');
+        const modalGlass = document.querySelector('.modal-glass');
+
+        function openModal() {
+            modal.style.display = 'flex';
+            // Small delay to allow display:flex to render before opacity transition
+            setTimeout(() => {
+                modal.classList.add('modal-active');
+            }, 10);
+        }
+
+        function closeModal() {
+            modal.classList.remove('modal-active');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+        }
+
+        function downloadCrow() {
+            window.open('https://www.mediafire.com/file/qwdoltt7r0eydc1/Nitheon_Crow.zip/file', '_blank');
+            closeModal();
+        }
+
+        // Close modal if clicked outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
