@@ -1,571 +1,262 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NITHEON | The Renaissance Edition</title>
     
-    <title>NITHEON | Advanced Offline AI for Iranians</title>
-    <meta name="description" content="Download NITHEON Raven (2.05GB) & Crow (4.51GB): Optimized, 100% offline Llama models. Fast, private, and powerful AI for Snapdragon 8 Elite and PC.">
-    <meta property="og:title" content="NITHEON | Next-Gen Offline AI">
-    <meta property="og:description" content="Download Raven & Crow. The future of offline AI in Iran. Private, Fast, Uncensored.">
-    <meta property="og:image" content="https://get-nitheon.github.io/preview.png"> <meta name="theme-color" content="#0a0a0a">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;900&family=Vazirmatn:wght@300;700;900&display=swap');
+
         :root {
-            --bg-color: #050505;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-highlight: rgba(255, 255, 255, 0.15);
-            
-            --raven-glow: #ff00cc; /* Magenta */
-            --crow-glow: #00f2ff; /* Cyan */
-            --text-main: #ffffff;
-            --text-muted: #888888;
+            --accent: #00f2ff;
+            --secondary: #ff00cc;
+            --bg: #050507;
+            --font-en: 'Unbounded', sans-serif;
+            --font-fa: 'Vazirmatn', sans-serif;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* RESET & LOCK SCROLL */
+        * { 
+            margin: 0; padding: 0; box-sizing: border-box; 
             -webkit-tap-highlight-color: transparent;
+            font-family: var(--font-fa); /* Fallback */
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Unbounded', sans-serif;
-            overflow-x: hidden;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* --- Background Effects --- */
-        .ambient-light {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
+            background: var(--bg);
+            color: #fff;
+            overflow: hidden; /* NO SCROLLING NEEDED */
             height: 100vh;
-            z-index: -1;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.4;
-            animation: pulse 6s infinite alternate ease-in-out;
-            transition: transform 0.2s ease-out; /* Smooth movement for mouse/gyro */
-        }
-
-        .orb-1 {
-            width: 50vw;
-            height: 50vw;
-            background: var(--raven-glow);
-            top: -10%;
-            left: -10%;
-        }
-
-        .orb-2 {
-            width: 60vw;
-            height: 60vw;
-            background: var(--crow-glow);
-            bottom: -10%;
-            right: -10%;
-            animation-delay: 2s;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.3; transform: scale(1); }
-            100% { opacity: 0.5; transform: scale(1.1); }
-        }
-
-        /* --- Typography Classes --- */
-        .brand-font {
-            font-family: 'Unbounded', sans-serif;
-            letter-spacing: 0.05em;
-        }
-
-        .persian-font {
-            font-family: 'Vazirmatn', sans-serif;
-            direction: rtl;
-        }
-
-        .tech-font {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            letter-spacing: -0.05em;
-        }
-
-        /* --- Hero Section --- */
-        header {
-            text-align: center;
-            padding: 4rem 1rem 2rem;
-            z-index: 2;
-            perspective: 1000px;
-        }
-
-        h1.logo {
-            font-size: 3.5rem;
-            font-weight: 900;
-            letter-spacing: 0.15em;
-            background: linear-gradient(135deg, #fff 0%, #aaa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(255,255,255,0.2);
-            margin-bottom: 0.5rem;
-            position: relative;
-            display: inline-block;
-        }
-
-        .tagline {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            margin-top: 1rem;
-            font-weight: 700;
-            text-shadow: 0 4px 12px rgba(0,0,0,0.5);
-        }
-
-        /* --- Main Container --- */
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            padding: 2rem;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 2rem;
-            z-index: 2;
-        }
-
-        /* --- Liquid Glass Cards --- */
-        .card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-top: 1px solid var(--glass-highlight);
-            border-radius: 24px;
-            padding: 2.5rem;
-            width: 100%;
-            max-width: 480px;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 60px -15px rgba(0,0,0,0.6);
-            border-color: rgba(255,255,255,0.2);
-        }
-
-        /* Inner Glows for Cards */
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.05), transparent 70%);
-            pointer-events: none;
-        }
-
-        /* --- Model Specific Styles --- */
-        .model-title {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 0.5rem;
-            position: relative;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        /* Raven Style */
-        .raven-text {
-            color: #fff;
-            text-shadow: 0 0 20px var(--raven-glow);
-        }
-        .shape-raven {
-            width: 30px;
-            height: 30px;
-            border: 2px solid var(--raven-glow);
-            transform: rotate(45deg);
-            box-shadow: 0 0 15px var(--raven-glow);
-        }
-
-        /* Crow Style */
-        .crow-text {
-            color: #fff;
-            text-shadow: 0 0 20px var(--crow-glow);
-        }
-        .shape-crow {
-            width: 30px;
-            height: 30px;
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            background: transparent;
-            border: 2px solid var(--crow-glow); /* Fake border via box shadow or SVG usually, using outline here for simplicity */
-            background: linear-gradient(45deg, var(--crow-glow), transparent);
-            box-shadow: 0 0 15px var(--crow-glow);
-        }
-
-        .model-specs {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            color: var(--text-muted);
-        }
-
-        .spec-badge {
-            background: rgba(255,255,255,0.05);
-            padding: 4px 8px;
-            border-radius: 6px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .description {
-            text-align: center;
-            color: #ddd;
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-            min-height: 80px;
-        }
-
-        /* --- Buttons --- */
-        .btn {
-            background: rgba(255,255,255,0.1);
-            color: #fff;
-            text-decoration: none;
-            padding: 1rem 2.5rem;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.1);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            text-align: center;
-        }
-
-        .btn-raven:hover {
-            background: var(--raven-glow);
-            box-shadow: 0 0 30px var(--raven-glow);
-            color: #000;
-            border-color: transparent;
-        }
-
-        .btn-crow:hover {
-            background: var(--crow-glow);
-            box-shadow: 0 0 30px var(--crow-glow);
-            color: #000;
-            border-color: transparent;
-        }
-
-        /* --- Info Section --- */
-        .info-section {
-            width: 100%;
-            max-width: 800px;
-            margin-top: 3rem;
-            text-align: center;
-            padding: 2rem;
-            z-index: 2;
-        }
-        
-        .info-card {
-            background: rgba(0,0,0,0.4);
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            border: 1px solid var(--glass-border);
-        }
-
-        .privacy-badge {
-            display: inline-block;
-            margin-top: 2rem;
-            padding: 0.5rem 1.5rem;
-            border: 1px solid #4ade80;
-            color: #4ade80;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            background: rgba(74, 222, 128, 0.1);
-            box-shadow: 0 0 15px rgba(74, 222, 128, 0.1);
-        }
-
-        /* --- Modal (Hardware Warning) --- */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(10px);
-            z-index: 100;
-            display: none; /* Hidden by default */
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-        }
-
-        .modal-glass {
-            background: rgba(20, 20, 20, 0.9);
-            border: 1px solid var(--crow-glow);
-            box-shadow: 0 0 50px rgba(0, 242, 255, 0.2);
-            padding: 2rem;
-            border-radius: 20px;
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-            position: relative;
-            transform: scale(0.9);
+            display: flex; flex-direction: column;
             opacity: 0;
-            transition: all 0.3s ease;
+            filter: blur(30px);
+            animation: siteOpen 1.2s cubic-bezier(0.2, 0, 0.2, 1) forwards;
         }
 
-        .modal-active .modal-glass {
-            transform: scale(1);
-            opacity: 1;
+        @keyframes siteOpen {
+            to { opacity: 1; filter: blur(0); }
         }
 
-        .modal-title {
-            color: var(--crow-glow);
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
+        /* --- BACKGROUND ART --- */
+        .art-canvas {
+            position: fixed; inset: 0; z-index: -2;
+            background: radial-gradient(circle at 10% 10%, #151525 0%, #050507 80%);
         }
 
-        .modal-body {
-            color: #ddd;
-            margin-bottom: 2rem;
-            line-height: 1.7;
-            font-size: 1rem;
+        /* --- 3D PRISM (MOBILE SIZED) --- */
+        .scene {
+            position: fixed; inset: 0; z-index: -1;
+            perspective: 1500px; display: flex; align-items: center; justify-content: center;
+            pointer-events: none;
+        }
+        .prism-wrap { 
+            transform-style: preserve-3d; 
+            transition: transform 0.2s ease-out;
+            filter: drop-shadow(0 0 35px rgba(0, 242, 255, 0.4)) drop-shadow(0 0 70px rgba(255, 0, 204, 0.2));
+        }
+        .cube {
+            width: 110px; height: 110px; transform-style: preserve-3d;
+            animation: float 6s ease-in-out infinite alternate, spin 30s linear infinite;
+        }
+        .face {
+            position: absolute; width: 110px; height: 110px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 0.5px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(12px);
+        }
+        .face:nth-child(1) { transform: rotateY(0deg) translateZ(55px); }
+        .face:nth-child(2) { transform: rotateY(90deg) translateZ(55px); }
+        .face:nth-child(3) { transform: rotateY(180deg) translateZ(55px); }
+        .face:nth-child(4) { transform: rotateY(-90deg) translateZ(55px); }
+        .face:nth-child(5) { transform: rotateX(90deg) translateZ(55px); }
+        .face:nth-child(6) { transform: rotateX(-90deg) translateZ(55px); }
+
+        @keyframes float { from { transform: translateY(-10px); } to { transform: translateY(10px); } }
+        @keyframes spin { from { transform: rotateX(0) rotateY(0); } to { transform: rotateX(360deg) rotateY(360deg); } }
+
+        /* --- REFINED NAV --- */
+        nav { padding: 25px 6%; display: flex; justify-content: space-between; align-items: center; z-index: 100; }
+        .logo { 
+            font-family: var(--font-en) !important; 
+            font-size: 0.75rem; font-weight: 900; letter-spacing: 3px; 
+            position: relative; padding-bottom: 5px;
+        }
+        .logo::after {
+            content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            box-shadow: 0 0 8px var(--accent);
         }
 
-        .modal-btns {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
+        .lang-btn {
+            font-family: var(--font-en) !important;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+            padding: 7px 16px; border-radius: 50px; color: #fff; cursor: pointer;
+            font-weight: 400; font-size: 0.65rem; backdrop-filter: blur(10px);
         }
 
-        .btn-modal-cancel {
-            background: transparent;
-            border: 1px solid #555;
-            color: #888;
-            padding: 0.8rem 1.5rem;
-            border-radius: 10px;
-            cursor: pointer;
-            font-family: 'Vazirmatn', sans-serif;
+        /* --- HERO --- */
+        .hero { padding: 40px 10% 20px; text-align: right; z-index: 10; }
+        h1 {
+            font-family: var(--font-en) !important;
+            font-size: clamp(2.2rem, 11vw, 4.5rem); 
+            line-height: 1; margin-bottom: 15px; letter-spacing: -2px;
+            background: linear-gradient(to bottom, #fff, #777);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .slogan { font-size: 1rem; font-weight: 300; opacity: 0.5; max-width: 400px; line-height: 1.5; }
+
+        /* --- LIST (NOW FITS ON SCREEN) --- */
+        .edition-list { padding: 20px 10%; z-index: 10; display: flex; flex-direction: column; }
+        .list-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 22px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-decoration: none; color: #fff; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .item-name { font-family: var(--font-en) !important; font-size: 1.3rem; font-weight: 900; }
+        .dl-hint { 
+            font-family: var(--font-fa); font-size: 0.6rem; font-weight: 700; 
+            color: var(--accent); margin-top: 4px; opacity: 0.8; 
+        }
+        .item-desc { font-weight: 400; opacity: 0.4; font-size: 0.8rem; text-align: left; }
+
+        /* --- MODAL (BEAUTIFIED) --- */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.92);
+            backdrop-filter: blur(40px); z-index: 1000;
+            display: none; align-items: center; justify-content: center;
+            animation: modalFade 0.4s ease;
+        }
+        @keyframes modalFade { from { opacity: 0; transform: scale(1.1); } to { opacity: 1; transform: scale(1); } }
+
+        .modal-box {
+            background: #000; width: 88%; max-width: 380px; padding: 50px 30px;
+            border-radius: 40px; text-align: center; border: 1px solid rgba(255,255,255,0.1);
+        }
+        .modal-box h3 { font-family: var(--font-fa); font-weight: 900; font-size: 1.4rem; margin-bottom: 12px; }
+        .modal-box p { 
+            font-family: var(--font-fa); opacity: 0.6; font-size: 0.85rem; line-height: 1.7; 
+            margin-bottom: 25px;
+        }
+        .btn-main {
+            font-family: var(--font-fa) !important;
+            display: block; width: 100%; padding: 18px; border-radius: 100px;
+            background: #fff; color: #000; font-weight: 900; border: none;
+            cursor: pointer; font-size: 0.95rem;
         }
 
-        .btn-modal-confirm {
-            background: var(--crow-glow);
-            color: #000;
-            border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            font-family: 'Vazirmatn', sans-serif;
-            box-shadow: 0 0 15px rgba(0,242,255,0.4);
-        }
-
-        /* --- Abstract 3D Shapes (SVG) --- */
-        .shape-bg {
-            position: absolute;
-            z-index: -1;
-            opacity: 0.2;
-            transition: transform 0.1s linear;
-        }
-
-        /* --- Media Queries --- */
-        @media (max-width: 768px) {
-            h1.logo { font-size: 2.2rem; }
-            .container { padding: 1rem; }
-            .card { padding: 1.5rem; }
-            .model-title { font-size: 2rem; }
-        }
+        /* TRANSITIONS */
+        .content-fade { transition: opacity 0.5s ease, transform 0.5s ease; }
+        .is-switching { opacity: 0; transform: translateY(10px); }
+        body.ltr { direction: ltr; text-align: left; }
+        body.ltr .hero { text-align: left; }
     </style>
 </head>
-<body>
+<body class="rtl">
 
-    <div class="ambient-light">
-        <div class="orb orb-1" id="orb1"></div>
-        <div class="orb orb-2" id="orb2"></div>
-    </div>
+    <div class="art-canvas"></div>
 
-    <header>
-        <h1 class="logo brand-font">NITHEON</h1>
-        <div class="persian-font tagline">هوش مصنوعی، بیخیالِ اینترنت</div>
-    </header>
-
-    <div class="container">
-        
-        <div class="card" id="card-raven">
-            <svg class="shape-bg" width="200" height="200" viewBox="0 0 100 100" style="top: -20px; right: -20px;">
-                <polygon points="50,15 90,85 10,85" fill="none" stroke="var(--raven-glow)" stroke-width="0.5" />
-            </svg>
-
-            <div class="model-title brand-font raven-text">
-                RAVEN 
-                <div class="shape-raven"></div>
+    <div class="scene">
+        <div class="prism-wrap" id="prism">
+            <div class="cube">
+                <div class="face"></div><div class="face"></div><div class="face"></div>
+                <div class="face"></div><div class="face"></div><div class="face"></div>
             </div>
-            
-            <div class="model-specs tech-font">
-                <span class="spec-badge">2.05 GB</span>
-                <span class="spec-badge">Lightweight</span>
-            </div>
-
-            <p class="description persian-font">
-                مدلی سریع و سبک برای اجرای روان روی اکثر گوشی‌ها و لپ‌تاپ‌ها. <br>
-                بهینه شده برای سرعت بالا و استفاده روزمره.
-            </p>
-
-            <a href="https://www.mediafire.com/file/myy1wwytlihn1wb/Nitheon_Raven.zip/file" target="_blank" class="btn btn-raven brand-font">
-                DOWNLOAD RAVEN
-            </a>
-        </div>
-
-        <div class="card" id="card-crow">
-             <svg class="shape-bg" width="200" height="200" viewBox="0 0 100 100" style="bottom: -20px; left: -20px;">
-                <polygon points="50,5 95,27 95,73 50,95 5,73 5,27" fill="none" stroke="var(--crow-glow)" stroke-width="0.5" />
-            </svg>
-
-            <div class="model-title brand-font crow-text">
-                CROW 
-                <div class="shape-crow"></div>
-            </div>
-
-            <div class="model-specs tech-font">
-                <span class="spec-badge">4.51 GB (ZIP)</span>
-                <span class="spec-badge">Pro Series</span>
-            </div>
-
-            <p class="description persian-font">
-                هوشمندترین مدل ما با درک عمیق از زبان فارسی. <br>
-                مخصوص پردازش‌های سنگین و دقیق.
-            </p>
-
-            <button class="btn btn-crow brand-font" onclick="openModal()">
-                DOWNLOAD CROW
-            </button>
-        </div>
-
-    </div>
-
-    <div class="info-section">
-        <div class="info-card persian-font">
-            <h3 style="color:white; margin-bottom:0.5rem;">چگونه استفاده کنیم؟</h3>
-            <p style="color:#aaa; font-size: 0.95rem; line-height:1.6;">
-                فایل‌ها با فرمت <strong>.gguf</strong> هستند.<br>
-                برای موبایل: اپلیکیشن <span class="tech-font" style="color:white">PocketPal</span><br>
-                برای کامپیوتر: نرم‌افزار <span class="tech-font" style="color:white">LM Studio</span><br>
-                <span style="font-size:0.85rem; opacity:0.7;">(راهنمای کامل در فایل ZIP موجود است)</span>
-            </p>
-        </div>
-
-        <div class="privacy-badge persian-font">
-            ۱۰۰٪ آفلاین • ۱۰۰٪ خصوصی
         </div>
     </div>
+
+    <nav>
+        <div class="logo">NITHEON</div>
+        <button class="lang-btn" onclick="toggleLang()">EN / FA</button>
+    </nav>
+
+    <main class="hero content-fade">
+        <h1>NITHEON</h1>
+        <p class="slogan" id="txt-slogan">دنیای جدیدی از هوش مصنوعی آفلاین. بدون نیاز به اینترنت، مستقیماً روی سخت‌افزار شما.</p>
+    </main>
+
+    <section class="edition-list content-fade">
+        <a href="https://www.mediafire.com/file/myy1wwytlihn1wb/Nitheon_Raven.zip/file" class="list-item">
+            <div style="display: flex; flex-direction: column;">
+                <span class="item-name">RAVEN</span>
+                <span class="dl-hint" id="hint-1">برای دانلود کلیک کنید</span>
+            </div>
+            <span class="item-desc" id="txt-raven">نسخه سبک برای تمام گوشی‌ها</span>
+        </a>
+        <div class="list-item" style="cursor: pointer;" onclick="openModal()">
+            <div style="display: flex; flex-direction: column;">
+                <span class="item-name">CROW</span>
+                <span class="dl-hint" id="hint-2">برای دانلود کلیک کنید</span>
+            </div>
+            <span class="item-desc" id="txt-crow">نسخه پیشرفته برای پرچمداران</span>
+        </div>
+    </section>
 
     <div class="modal-overlay" id="modal">
-        <div class="modal-glass">
-            <h2 class="modal-title persian-font">⚠️ پیش‌نیاز سخت‌افزاری</h2>
-            <div class="modal-body persian-font">
-                <p>مدل <strong>CROW</strong> بسیار قدرتمند و سنگین است.</p>
-                <br>
-                <ul style="list-style:none; text-align:right; margin-bottom:1rem;">
-                    <li>🔹 پردازنده: <strong>Snapdragon 8 Elite</strong> (یا بالاتر)</li>
-                    <li>🔹 فضای خالی: <strong>۱۲ گیگابایت</strong> (برای استخراج فایل)</li>
-                    <li>🔹 رم پیشنهادی: حداقل ۱۲ تا ۱۶ گیگابایت</li>
-                </ul>
-                <p style="font-size:0.9rem; color:#888;">اگر دستگاه شما ضعیف‌تر است، پیشنهاد می‌کنیم از مدل <strong>Raven</strong> استفاده کنید.</p>
-            </div>
-            <div class="modal-btns">
-                <button class="btn-modal-cancel" onclick="closeModal()">انصراف</button>
-                <button class="btn-modal-confirm" onclick="downloadCrow()">بله، دانلود شود</button>
-            </div>
+        <div class="modal-box">
+            <h3 id="m-title">بررسی سخت‌افزار</h3>
+            <p id="m-text">مدل Crow به تراشه Snapdragon 8 Elite یا بالاتر، و یا Apple A19 Pro یا بالاتر به همراه حداقل ۱۲ گیگابایت رم نیاز دارد.</p>
+            <button class="btn-main" onclick="dlCrow()" id="m-conf">سخت‌افزار لازم را دارم</button>
+            <button style="background:none; border:none; color:#555; margin-top:20px; cursor:pointer; font-weight:900; font-family:var(--font-en);" onclick="closeModal()" id="m-canc">CANCEL</button>
         </div>
     </div>
 
     <script>
-        // --- Interactive Light Engine ---
-        const orb1 = document.getElementById('orb1');
-        const orb2 = document.getElementById('orb2');
-        
-        // Desktop: Mouse Parallax
-        document.addEventListener('mousemove', (e) => {
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-
-            orb1.style.transform = `translate(${x * 30}px, ${y * 30}px) scale(1)`;
-            orb2.style.transform = `translate(-${x * 30}px, -${y * 30}px) scale(1)`;
-        });
-
-        // Mobile: Gyroscope Tilt (No warning/permission request, just passive check)
-        if (window.DeviceOrientationEvent) {
-            window.addEventListener('deviceorientation', (e) => {
-                const tiltX = e.gamma; // Left/Right tilt
-                const tiltY = e.beta;  // Front/Back tilt
-
-                // Limit movement range
-                if (tiltX && tiltY) {
-                    orb1.style.transform = `translate(${tiltX * 0.5}px, ${tiltY * 0.5}px)`;
-                    orb2.style.transform = `translate(${-tiltX * 0.5}px, ${-tiltY * 0.5}px)`;
-                }
-            });
-        }
-
-        // --- Crow Modal Logic ---
-        const modal = document.getElementById('modal');
-        const modalGlass = document.querySelector('.modal-glass');
-
-        function openModal() {
-            modal.style.display = 'flex';
-            // Small delay to allow display:flex to render before opacity transition
-            setTimeout(() => {
-                modal.classList.add('modal-active');
-            }, 10);
-        }
-
-        function closeModal() {
-            modal.classList.remove('modal-active');
-            setTimeout(() => {
-                modal.style.display = 'none';
-            }, 300);
-        }
-
-        function downloadCrow() {
-            window.open('https://www.mediafire.com/file/qwdoltt7r0eydc1/Nitheon_Crow.zip/file', '_blank');
-            closeModal();
-        }
-
-        // Close modal if clicked outside
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
+        const txt = {
+            fa: {
+                slogan: "دنیای جدیدی از هوش مصنوعی آفلاین. بدون نیاز به اینترنت، مستقیماً روی سخت‌افزار شما.",
+                raven: "نسخه سبک برای تمام گوشی‌ها",
+                crow: "نسخه پیشرفته برای پرچمداران",
+                hint: "برای دانلود کلیک کنید",
+                mTitle: "بررسی سخت‌افزار",
+                mText: "مدل Crow به تراشه Snapdragon 8 Elite یا بالاتر، و یا Apple A19 Pro یا بالاتر به همراه حداقل ۱۲ گیگابایت رم نیاز دارد.",
+                mConf: "سخت‌افزار لازم را دارم",
+                mCanc: "انصراف"
+            },
+            en: {
+                slogan: "A new world of offline AI. Running 100% locally on your own hardware.",
+                raven: "Optimized for every device",
+                crow: "Maximum intelligence for flagships",
+                hint: "CLICK TO DOWNLOAD",
+                mTitle: "Hardware Check",
+                mText: "Crow requires Snapdragon 8 Elite or higher, or Apple A19 Pro or higher, with 12GB+ RAM.",
+                mConf: "I HAVE THE HARDWARE",
+                mCanc: "CANCEL"
             }
+        };
+
+        let lang = 'fa';
+
+        function toggleLang() {
+            const wrap = document.querySelectorAll('.content-fade');
+            wrap.forEach(el => el.classList.add('is-switching'));
+            setTimeout(() => {
+                lang = lang === 'fa' ? 'en' : 'fa';
+                const t = txt[lang];
+                document.body.className = lang === 'fa' ? 'rtl' : 'ltr';
+                document.getElementById('txt-slogan').innerText = t.slogan;
+                document.getElementById('txt-raven').innerText = t.raven;
+                document.getElementById('txt-crow').innerText = t.crow;
+                document.getElementById('hint-1').innerText = t.hint;
+                document.getElementById('hint-2').innerText = t.hint;
+                document.getElementById('m-title').innerText = t.mTitle;
+                document.getElementById('m-text').innerText = t.mText;
+                document.getElementById('m-conf').innerText = t.mConf;
+                document.getElementById('m-canc').innerText = t.mCanc;
+                wrap.forEach(el => el.classList.remove('is-switching'));
+            }, 400);
+        }
+
+        const prism = document.getElementById('prism');
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth / 2 - e.clientX) / 25;
+            const y = (window.innerHeight / 2 - e.clientY) / 25;
+            prism.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
         });
+
+        function openModal() { document.getElementById('modal').style.display = 'flex'; }
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
+        function dlCrow() { window.open('https://www.mediafire.com/file/qwdoltt7r0eydc1/Nitheon_Crow.zip/file', '_blank'); closeModal(); }
     </script>
 </body>
 </html>
