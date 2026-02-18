@@ -1,262 +1,405 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NITHEON | The Renaissance Edition</title>
-    
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;900&family=Vazirmatn:wght@300;700;900&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NITHEON - Offline AI</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;500;700;900&family=Vazirmatn:wght@300;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-        :root {
-            --accent: #00f2ff;
-            --secondary: #ff00cc;
-            --bg: #050507;
-            --font-en: 'Unbounded', sans-serif;
-            --font-fa: 'Vazirmatn', sans-serif;
-        }
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --accent-cyan: #22d3ee;
+            --font-en: 'Unbounded', sans-serif;
+            --font-fa: 'Vazirmatn', sans-serif;
+        }
 
-        /* RESET & LOCK SCROLL */
-        * { 
-            margin: 0; padding: 0; box-sizing: border-box; 
-            -webkit-tap-highlight-color: transparent;
-            font-family: var(--font-fa); /* Fallback */
-        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            margin: 0;
+            font-family: var(--font-en);
+        }
 
-        body {
-            background: var(--bg);
-            color: #fff;
-            overflow: hidden; /* NO SCROLLING NEEDED */
-            height: 100vh;
-            display: flex; flex-direction: column;
-            opacity: 0;
-            filter: blur(30px);
-            animation: siteOpen 1.2s cubic-bezier(0.2, 0, 0.2, 1) forwards;
-        }
+        /* RTL Support */
+        html[dir="rtl"] body {
+            font-family: var(--font-fa);
+        }
 
-        @keyframes siteOpen {
-            to { opacity: 1; filter: blur(0); }
-        }
+        /* Background Effects */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.6;
+        }
 
-        /* --- BACKGROUND ART --- */
-        .art-canvas {
-            position: fixed; inset: 0; z-index: -2;
-            background: radial-gradient(circle at 10% 10%, #151525 0%, #050507 80%);
-        }
+        .monoline-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.03) 0%, transparent 50%),
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        }
 
-        /* --- 3D PRISM (MOBILE SIZED) --- */
-        .scene {
-            position: fixed; inset: 0; z-index: -1;
-            perspective: 1500px; display: flex; align-items: center; justify-content: center;
-            pointer-events: none;
-        }
-        .prism-wrap { 
-            transform-style: preserve-3d; 
-            transition: transform 0.2s ease-out;
-            filter: drop-shadow(0 0 35px rgba(0, 242, 255, 0.4)) drop-shadow(0 0 70px rgba(255, 0, 204, 0.2));
-        }
-        .cube {
-            width: 110px; height: 110px; transform-style: preserve-3d;
-            animation: float 6s ease-in-out infinite alternate, spin 30s linear infinite;
-        }
-        .face {
-            position: absolute; width: 110px; height: 110px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 0.5px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(12px);
-        }
-        .face:nth-child(1) { transform: rotateY(0deg) translateZ(55px); }
-        .face:nth-child(2) { transform: rotateY(90deg) translateZ(55px); }
-        .face:nth-child(3) { transform: rotateY(180deg) translateZ(55px); }
-        .face:nth-child(4) { transform: rotateY(-90deg) translateZ(55px); }
-        .face:nth-child(5) { transform: rotateX(90deg) translateZ(55px); }
-        .face:nth-child(6) { transform: rotateX(-90deg) translateZ(55px); }
+        /* Typography & UI */
+        .gradient-text {
+            background: linear-gradient(180deg, #ffffff 0%, #a5a5a5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-        @keyframes float { from { transform: translateY(-10px); } to { transform: translateY(10px); } }
-        @keyframes spin { from { transform: rotateX(0) rotateY(0); } to { transform: rotateX(360deg) rotateY(360deg); } }
+        .cyan-text {
+            color: var(--accent-cyan);
+        }
 
-        /* --- REFINED NAV --- */
-        nav { padding: 25px 6%; display: flex; justify-content: space-between; align-items: center; z-index: 100; }
-        .logo { 
-            font-family: var(--font-en) !important; 
-            font-size: 0.75rem; font-weight: 900; letter-spacing: 3px; 
-            position: relative; padding-bottom: 5px;
-        }
-        .logo::after {
-            content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            box-shadow: 0 0 8px var(--accent);
-        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-        .lang-btn {
-            font-family: var(--font-en) !important;
-            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-            padding: 7px 16px; border-radius: 50px; color: #fff; cursor: pointer;
-            font-weight: 400; font-size: 0.65rem; backdrop-filter: blur(10px);
-        }
+        .btn-glow:hover {
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
+        }
 
-        /* --- HERO --- */
-        .hero { padding: 40px 10% 20px; text-align: right; z-index: 10; }
-        h1 {
-            font-family: var(--font-en) !important;
-            font-size: clamp(2.2rem, 11vw, 4.5rem); 
-            line-height: 1; margin-bottom: 15px; letter-spacing: -2px;
-            background: linear-gradient(to bottom, #fff, #777);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .slogan { font-size: 1rem; font-weight: 300; opacity: 0.5; max-width: 400px; line-height: 1.5; }
+        /* Modal Animation */
+        .modal-enter {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        .modal-enter-active {
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 300ms, transform 300ms;
+        }
+        .modal-exit {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .modal-exit-active {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 200ms, transform 200ms;
+        }
 
-        /* --- LIST (NOW FITS ON SCREEN) --- */
-        .edition-list { padding: 20px 10%; z-index: 10; display: flex; flex-direction: column; }
-        .list-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 22px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
-            text-decoration: none; color: #fff; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .item-name { font-family: var(--font-en) !important; font-size: 1.3rem; font-weight: 900; }
-        .dl-hint { 
-            font-family: var(--font-fa); font-size: 0.6rem; font-weight: 700; 
-            color: var(--accent); margin-top: 4px; opacity: 0.8; 
-        }
-        .item-desc { font-weight: 400; opacity: 0.4; font-size: 0.8rem; text-align: left; }
-
-        /* --- MODAL (BEAUTIFIED) --- */
-        .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.92);
-            backdrop-filter: blur(40px); z-index: 1000;
-            display: none; align-items: center; justify-content: center;
-            animation: modalFade 0.4s ease;
-        }
-        @keyframes modalFade { from { opacity: 0; transform: scale(1.1); } to { opacity: 1; transform: scale(1); } }
-
-        .modal-box {
-            background: #000; width: 88%; max-width: 380px; padding: 50px 30px;
-            border-radius: 40px; text-align: center; border: 1px solid rgba(255,255,255,0.1);
-        }
-        .modal-box h3 { font-family: var(--font-fa); font-weight: 900; font-size: 1.4rem; margin-bottom: 12px; }
-        .modal-box p { 
-            font-family: var(--font-fa); opacity: 0.6; font-size: 0.85rem; line-height: 1.7; 
-            margin-bottom: 25px;
-        }
-        .btn-main {
-            font-family: var(--font-fa) !important;
-            display: block; width: 100%; padding: 18px; border-radius: 100px;
-            background: #fff; color: #000; font-weight: 900; border: none;
-            cursor: pointer; font-size: 0.95rem;
-        }
-
-        /* TRANSITIONS */
-        .content-fade { transition: opacity 0.5s ease, transform 0.5s ease; }
-        .is-switching { opacity: 0; transform: translateY(10px); }
-        body.ltr { direction: ltr; text-align: left; }
-        body.ltr .hero { text-align: left; }
-    </style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #000; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555; 
+        }
+    </style>
 </head>
-<body class="rtl">
+<body class="min-h-screen flex flex-col items-center justify-center relative selection:bg-cyan-500 selection:text-black">
 
-    <div class="art-canvas"></div>
+    <!-- Background Layers -->
+    <div class="monoline-bg"></div>
+    <div id="canvas-container"></div>
 
-    <div class="scene">
-        <div class="prism-wrap" id="prism">
-            <div class="cube">
-                <div class="face"></div><div class="face"></div><div class="face"></div>
-                <div class="face"></div><div class="face"></div><div class="face"></div>
-            </div>
-        </div>
-    </div>
+    <!-- Main Content -->
+    <main class="w-full max-w-md mx-auto px-6 py-12 flex flex-col items-center text-center z-10 relative">
+        
+        <!-- Header -->
+        <header class="w-full flex justify-between items-center mb-12">
+            <button id="lang-toggle" class="glass-panel px-4 py-2 rounded-full text-xs font-bold tracking-wider hover:bg-white/10 transition-colors">
+                EN / FA
+            </button>
+            <div class="font-bold tracking-[0.2em] text-sm text-cyan-400">NITHEON</div>
+        </header>
 
-    <nav>
-        <div class="logo">NITHEON</div>
-        <button class="lang-btn" onclick="toggleLang()">EN / FA</button>
-    </nav>
+        <!-- Hero Section -->
+        <div class="mb-16 space-y-4">
+            <h1 class="text-5xl font-black tracking-tight gradient-text leading-tight">NITHEON</h1>
+            <p id="hero-desc" class="text-gray-400 text-sm leading-relaxed max-w-xs mx-auto font-light">
+                A new world of offline AI. Running 100% locally on your own hardware.
+            </p>
+        </div>
 
-    <main class="hero content-fade">
-        <h1>NITHEON</h1>
-        <p class="slogan" id="txt-slogan">دنیای جدیدی از هوش مصنوعی آفلاین. بدون نیاز به اینترنت، مستقیماً روی سخت‌افزار شما.</p>
-    </main>
+        <!-- Download Options -->
+        <div class="w-full space-y-8">
+            
+            <!-- Raven -->
+            <div class="group relative">
+                <div class="flex justify-between items-end mb-2 px-2">
+                    <h2 class="text-2xl font-bold text-white">RAVEN</h2>
+                    <span id="raven-desc" class="text-xs text-gray-500 text-right max-w-[150px]">Optimized for every device</span>
+                </div>
+                <button onclick="downloadRaven()" class="w-full text-left group-hover:text-cyan-400 transition-colors duration-300">
+                    <span id="raven-btn" class="text-sm font-bold tracking-wide border-b border-transparent group-hover:border-cyan-400 pb-1 inline-block">
+                        CLICK TO DOWNLOAD
+                    </span>
+                </button>
+            </div>
 
-    <section class="edition-list content-fade">
-        <a href="https://www.mediafire.com/file/myy1wwytlihn1wb/Nitheon_Raven.zip/file" class="list-item">
-            <div style="display: flex; flex-direction: column;">
-                <span class="item-name">RAVEN</span>
-                <span class="dl-hint" id="hint-1">برای دانلود کلیک کنید</span>
-            </div>
-            <span class="item-desc" id="txt-raven">نسخه سبک برای تمام گوشی‌ها</span>
-        </a>
-        <div class="list-item" style="cursor: pointer;" onclick="openModal()">
-            <div style="display: flex; flex-direction: column;">
-                <span class="item-name">CROW</span>
-                <span class="dl-hint" id="hint-2">برای دانلود کلیک کنید</span>
-            </div>
-            <span class="item-desc" id="txt-crow">نسخه پیشرفته برای پرچمداران</span>
-        </div>
-    </section>
+            <!-- Crow -->
+            <div class="group relative">
+                <div class="flex justify-between items-end mb-2 px-2">
+                    <h2 class="text-2xl font-bold text-white">CROW</h2>
+                    <span id="crow-desc" class="text-xs text-gray-500 text-right max-w-[150px]">Maximum intelligence for flagships</span>
+                </div>
+                <button onclick="checkHardware()" class="w-full text-left group-hover:text-cyan-400 transition-colors duration-300">
+                    <span id="crow-btn" class="text-sm font-bold tracking-wide border-b border-transparent group-hover:border-cyan-400 pb-1 inline-block">
+                        CLICK TO DOWNLOAD
+                    </span>
+                </button>
+            </div>
 
-    <div class="modal-overlay" id="modal">
-        <div class="modal-box">
-            <h3 id="m-title">بررسی سخت‌افزار</h3>
-            <p id="m-text">مدل Crow به تراشه Snapdragon 8 Elite یا بالاتر، و یا Apple A19 Pro یا بالاتر به همراه حداقل ۱۲ گیگابایت رم نیاز دارد.</p>
-            <button class="btn-main" onclick="dlCrow()" id="m-conf">سخت‌افزار لازم را دارم</button>
-            <button style="background:none; border:none; color:#555; margin-top:20px; cursor:pointer; font-weight:900; font-family:var(--font-en);" onclick="closeModal()" id="m-canc">CANCEL</button>
-        </div>
-    </div>
+        </div>
+    </main>
 
-    <script>
-        const txt = {
-            fa: {
-                slogan: "دنیای جدیدی از هوش مصنوعی آفلاین. بدون نیاز به اینترنت، مستقیماً روی سخت‌افزار شما.",
-                raven: "نسخه سبک برای تمام گوشی‌ها",
-                crow: "نسخه پیشرفته برای پرچمداران",
-                hint: "برای دانلود کلیک کنید",
-                mTitle: "بررسی سخت‌افزار",
-                mText: "مدل Crow به تراشه Snapdragon 8 Elite یا بالاتر، و یا Apple A19 Pro یا بالاتر به همراه حداقل ۱۲ گیگابایت رم نیاز دارد.",
-                mConf: "سخت‌افزار لازم را دارم",
-                mCanc: "انصراف"
-            },
-            en: {
-                slogan: "A new world of offline AI. Running 100% locally on your own hardware.",
-                raven: "Optimized for every device",
-                crow: "Maximum intelligence for flagships",
-                hint: "CLICK TO DOWNLOAD",
-                mTitle: "Hardware Check",
-                mText: "Crow requires Snapdragon 8 Elite or higher, or Apple A19 Pro or higher, with 12GB+ RAM.",
-                mConf: "I HAVE THE HARDWARE",
-                mCanc: "CANCEL"
-            }
-        };
+    <!-- Hardware Check Modal -->
+    <div id="hardware-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 max-w-sm w-full mx-4 shadow-2xl transform transition-all scale-95" id="modal-content">
+            
+            <h3 id="modal-title" class="text-xl font-bold text-white mb-4 text-center">Hardware Check</h3>
+            
+            <p id="modal-text" class="text-gray-400 text-sm leading-relaxed mb-8 text-center font-light">
+                Crow requires Snapdragon 8 Elite or higher, or Apple A19 Pro or higher, with 12GB+ RAM.
+            </p>
 
-        let lang = 'fa';
+            <div class="flex flex-col gap-3">
+                <button onclick="confirmDownload()" class="w-full bg-white text-black font-bold py-3 rounded-full hover:bg-gray-200 transition-colors btn-glow">
+                    <span id="modal-confirm">I HAVE THE HARDWARE</span>
+                </button>
+                <button onclick="closeModal()" class="w-full text-gray-500 text-xs font-medium py-2 hover:text-white transition-colors">
+                    <span id="modal-cancel">CANCEL</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
-        function toggleLang() {
-            const wrap = document.querySelectorAll('.content-fade');
-            wrap.forEach(el => el.classList.add('is-switching'));
-            setTimeout(() => {
-                lang = lang === 'fa' ? 'en' : 'fa';
-                const t = txt[lang];
-                document.body.className = lang === 'fa' ? 'rtl' : 'ltr';
-                document.getElementById('txt-slogan').innerText = t.slogan;
-                document.getElementById('txt-raven').innerText = t.raven;
-                document.getElementById('txt-crow').innerText = t.crow;
-                document.getElementById('hint-1').innerText = t.hint;
-                document.getElementById('hint-2').innerText = t.hint;
-                document.getElementById('m-title').innerText = t.mTitle;
-                document.getElementById('m-text').innerText = t.mText;
-                document.getElementById('m-conf').innerText = t.mConf;
-                document.getElementById('m-canc').innerText = t.mCanc;
-                wrap.forEach(el => el.classList.remove('is-switching'));
-            }, 400);
-        }
+    <script>
+        // --- Data & Translations ---
+        const content = {
+            en: {
+                heroDesc: "A new world of offline AI. Running 100% locally on your own hardware.",
+                ravenDesc: "Optimized for every device",
+                ravenBtn: "CLICK TO DOWNLOAD",
+                crowDesc: "Maximum intelligence for flagships",
+                crowBtn: "CLICK TO DOWNLOAD",
+                modalTitle: "Hardware Check",
+                modalText: "Crow requires Snapdragon 8 Elite or higher, or Apple A19 Pro or higher, with 12GB+ RAM.",
+                modalConfirm: "I HAVE THE HARDWARE",
+                modalCancel: "CANCEL"
+            },
+            fa: {
+                heroDesc: "دنیای جدیدی از هوش مصنوعی آفلاین. بدون نیاز به اینترنت، مستقیماً روی سخت افزار شما.",
+                ravenDesc: "نسخه سبک برای تمام گوشی‌ها",
+                ravenBtn: "برای دانلود کلیک کنید",
+                crowDesc: "نسخه پیشرفته برای پرچمداران",
+                crowBtn: "برای دانلود کلیک کنید",
+                modalTitle: "بررسی سخت‌افزار",
+                modalText: "مدل Crow به Snapdragon 8 Elite یا بالاتر، یا Apple A19 Pro و بالاتر به همراه حداقل ۱۲ گیگابایت رم نیاز دارد.",
+                modalConfirm: "سخت‌افزار لازم را دارم",
+                modalCancel: "انصراف"
+            }
+        };
 
-        const prism = document.getElementById('prism');
-        document.addEventListener('mousemove', (e) => {
-            const x = (window.innerWidth / 2 - e.clientX) / 25;
-            const y = (window.innerHeight / 2 - e.clientY) / 25;
-            prism.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
-        });
+        const links = {
+            raven: "https://www.mediafire.com/file/myy1wwytlihn1wb/Nitheon_Raven.zip/file",
+            crow: "https://www.mediafire.com/file/qwdoltt7r0eydc1/Nitheon_Crow.zip/file"
+        };
 
-        function openModal() { document.getElementById('modal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('modal').style.display = 'none'; }
-        function dlCrow() { window.open('https://www.mediafire.com/file/qwdoltt7r0eydc1/Nitheon_Crow.zip/file', '_blank'); closeModal(); }
-    </script>
+        let currentLang = 'en';
+
+        // --- DOM Elements ---
+        const langToggle = document.getElementById('lang-toggle');
+        const modal = document.getElementById('hardware-modal');
+        const modalContent = document.getElementById('modal-content');
+        
+        // Text Elements
+        const els = {
+            heroDesc: document.getElementById('hero-desc'),
+            ravenDesc: document.getElementById('raven-desc'),
+            ravenBtn: document.getElementById('raven-btn'),
+            crowDesc: document.getElementById('crow-desc'),
+            crowBtn: document.getElementById('crow-btn'),
+            modalTitle: document.getElementById('modal-title'),
+            modalText: document.getElementById('modal-text'),
+            modalConfirm: document.getElementById('modal-confirm'),
+            modalCancel: document.getElementById('modal-cancel')
+        };
+
+        // --- Functions ---
+
+        function updateLanguage() {
+            const data = content[currentLang];
+            const isRTL = currentLang === 'fa';
+
+            // Update Direction
+            document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
+            document.documentElement.lang = currentLang;
+
+            // Update Text with Fade Effect
+            const elements = [
+                els.heroDesc, els.ravenDesc, els.ravenBtn, 
+                els.crowDesc, els.crowBtn, els.modalTitle, 
+                els.modalText, els.modalConfirm, els.modalCancel
+            ];
+
+            elements.forEach(el => {
+                el.style.opacity = '0';
+                setTimeout(() => {
+                    // Map keys dynamically based on element ID suffix or specific mapping if needed
+                    // Simple mapping based on variable names above
+                    if(el === els.heroDesc) el.textContent = data.heroDesc;
+                    if(el === els.ravenDesc) el.textContent = data.ravenDesc;
+                    if(el === els.ravenBtn) el.textContent = data.ravenBtn;
+                    if(el === els.crowDesc) el.textContent = data.crowDesc;
+                    if(el === els.crowBtn) el.textContent = data.crowBtn;
+                    if(el === els.modalTitle) el.textContent = data.modalTitle;
+                    if(el === els.modalText) el.textContent = data.modalText;
+                    if(el === els.modalConfirm) el.textContent = data.modalConfirm;
+                    if(el === els.modalCancel) el.textContent = data.modalCancel;
+                    
+                    el.style.opacity = '1';
+                }, 200);
+            });
+        }
+
+        langToggle.addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'fa' : 'en';
+            updateLanguage();
+        });
+
+        function downloadRaven() {
+            window.open(links.raven, '_blank');
+        }
+
+        function checkHardware() {
+            modal.classList.remove('hidden');
+            // Small delay to allow display:block to apply before opacity transition
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function confirmDownload() {
+            closeModal();
+            setTimeout(() => {
+                window.open(links.crow, '_blank');
+            }, 300);
+        }
+
+        // Close modal on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // --- Three.js Background Animation ---
+        function initThreeJS() {
+            const container = document.getElementById('canvas-container');
+            const scene = new THREE.Scene();
+            
+            // Camera setup
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 2.5;
+
+            // Renderer setup
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            container.appendChild(renderer.domElement);
+
+            // Create Wireframe Cube
+            const geometry = new THREE.BoxGeometry(1.2, 1.2, 1.2);
+            const edges = new THREE.EdgesGeometry(geometry);
+            const material = new THREE.LineBasicMaterial({ 
+                color: 0x333333, 
+                transparent: true, 
+                opacity: 0.4 
+            });
+            const cube = new THREE.LineSegments(edges, material);
+            scene.add(cube);
+
+            // Add a secondary inner cube for complexity
+            const innerGeo = new THREE.BoxGeometry(0.8, 0.8, 0.8);
+            const innerEdges = new THREE.EdgesGeometry(innerGeo);
+            const innerMat = new THREE.LineBasicMaterial({ 
+                color: 0x22d3ee, // Cyan accent
+                transparent: true, 
+                opacity: 0.15 
+            });
+            const innerCube = new THREE.LineSegments(innerEdges, innerMat);
+            scene.add(innerCube);
+
+            // Animation Loop
+            function animate() {
+                requestAnimationFrame(animate);
+
+                // Rotate cubes
+                cube.rotation.x += 0.002;
+                cube.rotation.y += 0.003;
+                
+                innerCube.rotation.x -= 0.003;
+                innerCube.rotation.y -= 0.002;
+
+                // Gentle floating motion
+                const time = Date.now() * 0.0005;
+                cube.position.y = Math.sin(time) * 0.1;
+                innerCube.position.y = Math.sin(time + 1) * 0.1;
+
+                renderer.render(scene, camera);
+            }
+
+            animate();
+
+            // Handle Resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        // Initialize
+        initThreeJS();
+        updateLanguage(); // Set initial text
+
+    </script>
 </body>
 </html>
+
